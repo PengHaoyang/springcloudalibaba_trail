@@ -15,8 +15,8 @@ demo:
   my:
     id: server-aa-1
   serverAB:
-    name: localhost:4101
+    name: server-ab
   serverAC:
-    name: localhost:4201
+    name: server-ac
 
 

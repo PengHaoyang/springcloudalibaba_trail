@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import demo.proa.b.SysPropsAB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +24,7 @@ public class ClientACConfiguration {
     private RestTemplate restTemplate;
 
     @Bean
+    @LoadBalanced
     @ConditionalOnMissingBean
     public RestTemplate restTemplate() {
         return new RestTemplate();
