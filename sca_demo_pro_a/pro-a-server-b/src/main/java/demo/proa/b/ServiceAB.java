@@ -18,7 +18,7 @@ public class ServiceAB {
     @Autowired
     private SysPropsAB props;
 
-    @Autowired
+    @Autowired(required = false)
     private IClientAC clientAC;
 
     @Autowired

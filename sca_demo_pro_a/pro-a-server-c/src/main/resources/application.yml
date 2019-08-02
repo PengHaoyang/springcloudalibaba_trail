@@ -9,7 +9,7 @@ spring:
   application:
     name: server-ac
 server:
-  port: ${random.int[10000,19999]}
+  port: 4201
 
 demo:
   my:

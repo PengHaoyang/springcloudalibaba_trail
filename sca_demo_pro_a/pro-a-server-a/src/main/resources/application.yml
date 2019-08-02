@@ -9,7 +9,7 @@ spring:
   application:
     name: server-aa
 server:
-  port: 4001
+  port: 4002
 
 demo:
   my:

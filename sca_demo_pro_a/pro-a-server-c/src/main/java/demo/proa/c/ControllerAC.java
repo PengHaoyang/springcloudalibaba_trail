@@ -21,9 +21,9 @@ public class ControllerAC {
     private ServiceAC serviceAC;
 
     @GetMapping("/ac")
-    public ResponseEntity<String> getAC() {
+    public ResponseEntity<JSONObject> getAC() {
         PojoAC one = serviceAC.getOne();
-        return ResponseEntity.ok(JSONObject.toJSONString(one, SerializerFeature.PrettyFormat));
+        return ResponseEntity.ok((JSONObject) JSONObject.toJSON(one));
     }
 
 }
