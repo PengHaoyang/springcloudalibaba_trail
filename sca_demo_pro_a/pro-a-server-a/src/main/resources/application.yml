@@ -9,14 +9,14 @@ spring:
   application:
     name: server-aa
 server:
-  port: 4001
+  port: 4002
 
 demo:
   my:
     id: server-aa-1
   serverAB:
-    name: localhost:4101
+    name: server-ab
   serverAC:
-    name: localhost:4201
+    name: server-ac
 
 
