@@ -14,6 +14,12 @@ public class SysPropsAB {
     @Value("${demo.my.id}")
     private String id;
 
+    @Value("${demo.my.restConnectTimeout:500}")
+    private String restConnectTimeout;
+
+    @Value("${demo.my.restReadTimeout:500}")
+    private String restReadTimeout;
+
     @Value("${demo.serverAC.name}")
     private String serverAC;
 
@@ -31,5 +37,21 @@ public class SysPropsAB {
 
     public void setServerAC(String serverAC) {
         this.serverAC = serverAC;
+    }
+
+    public String getRestConnectTimeout() {
+        return restConnectTimeout;
+    }
+
+    public void setRestConnectTimeout(String restConnectTimeout) {
+        this.restConnectTimeout = restConnectTimeout;
+    }
+
+    public String getRestReadTimeout() {
+        return restReadTimeout;
+    }
+
+    public void setRestReadTimeout(String restReadTimeout) {
+        this.restReadTimeout = restReadTimeout;
     }
 }

@@ -2,4 +2,4 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 172.16.32.221:8848
+        server-addr: localhost:8848

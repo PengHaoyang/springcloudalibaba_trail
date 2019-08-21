@@ -11,4 +11,6 @@ public interface IClientAB {
 
     JSONObject getOne();
 
+    JSONObject getOneWithDelay(int ms);
+
 }

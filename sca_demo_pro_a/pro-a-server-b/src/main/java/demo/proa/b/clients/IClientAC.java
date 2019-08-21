@@ -10,4 +10,6 @@ import com.alibaba.fastjson.JSONObject;
 public interface IClientAC {
 
     JSONObject getOne();
+
+    JSONObject getOneWithDelay(int ms);
 }

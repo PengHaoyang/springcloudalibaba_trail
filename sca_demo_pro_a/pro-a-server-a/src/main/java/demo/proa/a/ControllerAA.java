@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: penghaoyang
@@ -23,6 +21,12 @@ public class ControllerAA {
     @GetMapping("/aa")
     public ResponseEntity<String> getAA() {
         PojoAA one = serviceAA.getOne();
+        return ResponseEntity.ok(JSONObject.toJSONString(one, SerializerFeature.PrettyFormat));
+    }
+
+    @GetMapping("/aa/delay/each/{ms}")
+    public ResponseEntity<String> getAAWithDelay(@PathVariable("ms") int ms) throws InterruptedException {
+        PojoAA one = serviceAA.getOneWithDelay(ms);
         return ResponseEntity.ok(JSONObject.toJSONString(one, SerializerFeature.PrettyFormat));
     }
 

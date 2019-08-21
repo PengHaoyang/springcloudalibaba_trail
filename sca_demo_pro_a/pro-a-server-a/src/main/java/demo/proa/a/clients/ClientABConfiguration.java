@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -27,7 +28,10 @@ public class ClientABConfiguration {
     @LoadBalanced
     @ConditionalOnMissingBean
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(Integer.valueOf(props.getRestConnectTimeout()));
+        requestFactory.setReadTimeout(Integer.valueOf(props.getRestReadTimeout()));
+        return new RestTemplate(requestFactory);
     }
 
     @Bean
@@ -36,6 +40,13 @@ public class ClientABConfiguration {
             @Override
             public JSONObject getOne() {
                 String url = String.format("http://%s/api/ab", props.getServerAB());
+                String result = restTemplate.getForEntity(url, String.class).getBody();
+                return JSONObject.parseObject(result);
+            }
+
+            @Override
+            public JSONObject getOneWithDelay(int ms) {
+                String url = String.format("http://%s/api/ab/delay/each/%d", props.getServerAB(), ms);
                 String result = restTemplate.getForEntity(url, String.class).getBody();
                 return JSONObject.parseObject(result);
             }

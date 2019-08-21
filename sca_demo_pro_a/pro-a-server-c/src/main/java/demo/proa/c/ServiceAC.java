@@ -29,4 +29,11 @@ public class ServiceAC {
         return p;
     }
 
+    public PojoAC getOneWithDelay(int ms) throws InterruptedException {
+        if(ms > 0){
+            Thread.sleep(ms);
+        }
+        return getOne();
+    }
+
 }
