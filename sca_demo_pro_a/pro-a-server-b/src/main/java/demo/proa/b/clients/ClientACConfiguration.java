@@ -102,7 +102,7 @@ public class ClientACConfiguration {
      */
     static class FeignClientACConfiguration {
         @Bean
-        public FeignClientACFallbackFactory echoServiceFallback() {
+        public FeignClientACFallbackFactory feignClientACFallbackFactory() {
             return new FeignClientACFallbackFactory();
         }
     }

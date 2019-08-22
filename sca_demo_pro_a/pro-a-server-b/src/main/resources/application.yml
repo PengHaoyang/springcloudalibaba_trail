@@ -5,13 +5,17 @@ management:
     web:
       exposure:
         include: '*'
+
+# spring boot 配置
+# spring.application.name 会作为服务实例的名称
 spring:
   application:
     name: server-ab
 server:
   port: 4101
 
-# feign 配置, 主要为 feign.client.config (这是个Map 配置, 使用key对应 feignClient的name, 也可以使用 default 使全局生效)
+# feign 配置
+# 主要为 feign.client.config (这是个Map 配置, 使用key对应 feignClient的name, 也可以使用 default 使全局生效)
 # feign.client.config.xxx.readTimeout 设置 feign 的超时时间
 # 如果feign 的超时时间大于 hystrix 的超时时间(hystrix开启时), 会被 hystrix 吃掉
 # 框架默认的 feign 和 hystrix 的超时时间 都是 1s
@@ -24,6 +28,19 @@ feign:
         connectTimeout: 2019
         readTimeout: 2019
         loggerLevel: full
+
+# hystrix 配置
+# feign 中开启 hystrix 后 以下配置生效
+# 以下配置不会联想，参考 scn 框架的相关资料，猜测 scn 和 sca 都依赖了 openfeign 的 hystrix
+# hystrix.command 也是 Map 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
 
 demo:
   my:

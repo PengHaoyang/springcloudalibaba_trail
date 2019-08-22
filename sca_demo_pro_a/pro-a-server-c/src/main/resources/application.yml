@@ -5,11 +5,19 @@ management:
     web:
       exposure:
         include: '*'
+
+# spring boot 配置
+# spring.application.name 会作为服务实例的名称
+# 设置了 tomcat 处理并发请求的个数, 模拟局限性以测试 ab 服务的 hystrix
 spring:
   application:
     name: server-ac
 server:
   port: 4201
+  tomcat:
+    accept-count: 6
+    max-connections: 6
+    max-threads: 6
 
 demo:
   my:
