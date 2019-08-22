@@ -35,26 +35,34 @@ public class ServiceAB {
     }
 
     public PojoAB getOneWithDelay(int ms) throws InterruptedException {
+        PojoAB p = new PojoAB();
+        p.setFieldAB5(Instant.now().toString() + " -> init, then delay " + ms + "ms");
+
         if(ms > 0){
             Thread.sleep(ms);
         }
 
-        PojoAB p = new PojoAB();
         p.setFieldAB1(props.getId() + ":" + serviceInstance.getUri().toString());
         p.setFieldAB2(Instant.now().toString());
         p.setFieldAB3(Instant.now().getNano());
         p.setFieldAB4(Instant.now().getEpochSecond());
         p.getFieldABMap().put("ac", clientAC.getOneWithDelay(ms));
+
+        p.setFieldAB6(Instant.now().toString() + " -> return");
         return p;
     }
 
     public PojoAB getOneWithDelayAC(int ms) {
         PojoAB p = new PojoAB();
+        p.setFieldAB5(Instant.now().toString() + " -> init, then delay " + ms + "ms");
+
         p.setFieldAB1(props.getId() + ":" + serviceInstance.getUri().toString());
         p.setFieldAB2(Instant.now().toString());
         p.setFieldAB3(Instant.now().getNano());
         p.setFieldAB4(Instant.now().getEpochSecond());
         p.getFieldABMap().put("ac", clientAC.getOneWithDelay(ms));
+
+        p.setFieldAB6(Instant.now().toString() + " -> return");
         return p;
     }
 

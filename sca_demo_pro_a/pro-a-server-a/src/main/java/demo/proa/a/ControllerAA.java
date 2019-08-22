@@ -25,13 +25,13 @@ public class ControllerAA {
     }
 
     @GetMapping("/aa/delay/each/{ms}")
-    public ResponseEntity<String> getAAWithDelay(@PathVariable("ms") int ms) throws InterruptedException {
+    public ResponseEntity<String> getAAWithDelay(@PathVariable("ms") int ms) {
         PojoAA one = serviceAA.getOneWithDelay(ms);
         return ResponseEntity.ok(JSONObject.toJSONString(one, SerializerFeature.PrettyFormat));
     }
 
     @GetMapping("/aa/delay/ac/{ms}")
-    public ResponseEntity<String> getAAWithDelayAC(@PathVariable("ms") int ms) throws InterruptedException {
+    public ResponseEntity<String> getAAWithDelayAC(@PathVariable("ms") int ms) {
         PojoAA one = serviceAA.getOneWithDelayAC(ms);
         return ResponseEntity.ok(JSONObject.toJSONString(one, SerializerFeature.PrettyFormat));
     }

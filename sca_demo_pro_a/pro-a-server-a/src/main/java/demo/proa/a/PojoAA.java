@@ -17,6 +17,10 @@ public class PojoAA {
 
     private int fieldAA3;
 
+    private String fieldAA5;
+
+    private String fieldAA6;
+
     private Map<String, Object> fieldAAMap = new JSONObject();
 
     public String getFieldAA1() {
@@ -45,6 +49,22 @@ public class PojoAA {
 
     public Map<String, Object> getFieldAAMap() {
         return fieldAAMap;
+    }
+
+    public String getFieldAA5() {
+        return fieldAA5;
+    }
+
+    public void setFieldAA5(String fieldAA5) {
+        this.fieldAA5 = fieldAA5;
+    }
+
+    public String getFieldAA6() {
+        return fieldAA6;
+    }
+
+    public void setFieldAA6(String fieldAA6) {
+        this.fieldAA6 = fieldAA6;
     }
 
     public void setFieldAAMap(Map<String, Object> fieldAAMap) {
