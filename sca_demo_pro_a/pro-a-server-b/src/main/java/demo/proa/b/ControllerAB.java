@@ -34,7 +34,7 @@ public class ControllerAB {
     }
 
     @GetMapping("/ab/delay/ac/{ms}")
-    public ResponseEntity<String> getAAWithDelayAC(@PathVariable("ms") int ms) throws InterruptedException {
+    public ResponseEntity<String> getAAWithDelayAC(@PathVariable("ms") int ms) {
         PojoAB one = serviceAB.getOneWithDelayAC(ms);
         return ResponseEntity.ok(JSONObject.toJSONString(one, SerializerFeature.PrettyFormat));
     }
