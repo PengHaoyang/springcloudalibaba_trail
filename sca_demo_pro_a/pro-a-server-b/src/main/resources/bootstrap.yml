@@ -3,9 +3,3 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
-feign:
-  httpclient:
-    connection-timeout: 2000
-  hystrix:
-    enabled: true
-

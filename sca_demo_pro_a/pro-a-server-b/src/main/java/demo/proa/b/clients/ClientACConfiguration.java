@@ -72,6 +72,7 @@ public class ClientACConfiguration {
 
     /**
      * 定义 Feign 客户端, 使用了 hystrix FallbackFactory, 加载方法见对应的配置类
+     * 详细的配置, 见 application.yml 的 feign.client.config
      */
     @FeignClient(
             value = "server-ac",
