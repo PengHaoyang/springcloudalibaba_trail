@@ -22,18 +22,29 @@ public class ServiceAC {
 
     public PojoAC getOne() {
         PojoAC p = new PojoAC();
+        p.setFieldAC5(Instant.now().toString() + " -> init, with no delay");
         p.setFieldAC1(props.getId() + ":" + serviceInstance.getUri().toString());
         p.setFieldAC2(Instant.now().toString());
         p.setFieldAC3(Instant.now().getNano());
         p.setFieldAC4(Instant.now().getEpochSecond());
+        p.setFieldAC6(Instant.now().toString() + " -> return");
         return p;
     }
 
     public PojoAC getOneWithDelay(int ms) throws InterruptedException {
+        PojoAC p = new PojoAC();
+        p.setFieldAC5(Instant.now().toString() + " -> init, then delay " + ms + "ms");
+
         if(ms > 0){
             Thread.sleep(ms);
         }
-        return getOne();
+
+        p.setFieldAC1(props.getId() + ":" + serviceInstance.getUri().toString());
+        p.setFieldAC2(Instant.now().toString());
+        p.setFieldAC3(Instant.now().getNano());
+        p.setFieldAC4(Instant.now().getEpochSecond());
+        p.setFieldAC6(Instant.now().toString() + " -> return");
+        return p;
     }
 
 }

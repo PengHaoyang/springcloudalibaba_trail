@@ -33,7 +33,7 @@ public class ControllerAC {
 
     /**
      * 注意 同上
-     * @param ms
+     * @param ms int 模拟延迟的毫秒数
      * @return ResponseEntity<JSONObject>
      * @throws InterruptedException emm...
      */

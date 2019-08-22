@@ -39,16 +39,22 @@ public class ServiceAA {
     }
 
     public PojoAA getOneWithDelay(int ms) throws InterruptedException {
-//        if(ms > 0){
-//            Thread.sleep(ms);
-//        }
-
         PojoAA p = new PojoAA();
         p.setFieldAA1(props.getId() + ":" + serviceInstance.getUri().toString());
         p.setFieldAA2(Instant.now().toString());
         p.setFieldAA3(Instant.now().getNano());
         p.getFieldAAMap().put("ab", clientAB.getOneWithDelay(ms));
         p.getFieldAAMap().put("ac", clientAC.getOneWithDelay(ms));
+        return p;
+    }
+
+    public PojoAA getOneWithDelayAC(int ms) throws InterruptedException {
+        PojoAA p = new PojoAA();
+        p.setFieldAA1(props.getId() + ":" + serviceInstance.getUri().toString());
+        p.setFieldAA2(Instant.now().toString());
+        p.setFieldAA3(Instant.now().getNano());
+        p.getFieldAAMap().put("ab", clientAB.getOneWithDelayAC(ms));
+        p.getFieldAAMap().put("ac", clientAC.getOne());
         return p;
     }
 

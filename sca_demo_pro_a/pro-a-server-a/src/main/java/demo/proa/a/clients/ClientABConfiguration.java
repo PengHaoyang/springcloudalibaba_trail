@@ -50,6 +50,13 @@ public class ClientABConfiguration {
                 String result = restTemplate.getForEntity(url, String.class).getBody();
                 return JSONObject.parseObject(result);
             }
+
+            @Override
+            public JSONObject getOneWithDelayAC(int ms) {
+                String url = String.format("http://%s/api/ab/delay/ac/%d", props.getServerAB(), ms);
+                String result = restTemplate.getForEntity(url, String.class).getBody();
+                return JSONObject.parseObject(result);
+            }
         };
     }
 

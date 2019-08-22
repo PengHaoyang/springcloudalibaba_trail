@@ -48,4 +48,14 @@ public class ServiceAB {
         return p;
     }
 
+    public PojoAB getOneWithDelayAC(int ms) throws InterruptedException {
+        PojoAB p = new PojoAB();
+        p.setFieldAB1(props.getId() + ":" + serviceInstance.getUri().toString());
+        p.setFieldAB2(Instant.now().toString());
+        p.setFieldAB3(Instant.now().getNano());
+        p.setFieldAB4(Instant.now().getEpochSecond());
+        p.getFieldABMap().put("ac", clientAC.getOneWithDelay(ms));
+        return p;
+    }
+
 }
