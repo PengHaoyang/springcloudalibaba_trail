@@ -2,12 +2,14 @@ package demo.proa.a.clients;
 
 import com.alibaba.fastjson.JSONObject;
 import demo.proa.a.SysPropsAA;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -54,7 +56,15 @@ public class ClientABConfiguration {
             @Override
             public JSONObject getOneWithDelayAC(int ms) {
                 String url = String.format("http://%s/api/ab/delay/ac/%d", props.getServerAB(), ms);
-                String result = restTemplate.getForEntity(url, String.class).getBody();
+                String result = null;
+                try {
+                    result = restTemplate.getForEntity(url, String.class).getBody();
+                } catch (RestClientException e) {
+                    /* FIX ME 调用方ab不可用, 临时方案*/
+                    JSONObject resultJson = new JSONObject();
+                    resultJson.put("exception", ExceptionUtils.getStackTrace(e));
+                    return resultJson;
+                }
                 return JSONObject.parseObject(result);
             }
         };

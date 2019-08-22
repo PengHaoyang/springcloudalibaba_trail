@@ -54,7 +54,7 @@ public class ServiceAA {
         p.setFieldAA2(Instant.now().toString());
         p.setFieldAA3(Instant.now().getNano());
         p.getFieldAAMap().put("ab", clientAB.getOneWithDelayAC(ms));
-        p.getFieldAAMap().put("ac", clientAC.getOne());
+        p.getFieldAAMap().put("ac", "aa won't invoke ac now");
         return p;
     }
 

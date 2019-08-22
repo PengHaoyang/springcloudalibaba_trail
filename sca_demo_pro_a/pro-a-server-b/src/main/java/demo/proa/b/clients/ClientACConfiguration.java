@@ -2,6 +2,7 @@ package demo.proa.b.clients;
 
 import com.alibaba.fastjson.JSONObject;
 import demo.proa.b.SysPropsAB;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -39,7 +41,7 @@ public class ClientACConfiguration {
         return new RestTemplate(requestFactory);
     }
 
-//    @Bean
+    @Bean
     public IClientAC restClientAC() {
         return new IClientAC() {
             @Override
@@ -52,13 +54,20 @@ public class ClientACConfiguration {
             @Override
             public JSONObject getOneWithDelay(int ms) {
                 String url = String.format("http://%s/api/ac/delay/each/%d", props.getServerAC(), ms);
-                JSONObject result = restTemplate.getForEntity(url, JSONObject.class).getBody();
+                JSONObject result = null;
+                try {
+                    result = restTemplate.getForEntity(url, JSONObject.class).getBody();
+                } catch (Exception e) {
+                    /* FIX ME 调用方ac不可用, 临时方案*/
+                    result = new JSONObject();
+                    result.put("exception", ExceptionUtils.getStackTrace(e));
+                }
                 return result;
             }
         };
     }
 
-    @FeignClient(value = "server-ac")
+//    @FeignClient(value = "server-ac")
 //    @RequestMapping("/api") /* 这个不能用 */
     public interface IFeignClientAC extends IClientAC {
 
