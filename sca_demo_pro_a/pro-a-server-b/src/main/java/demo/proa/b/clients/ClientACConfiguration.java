@@ -12,9 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -60,7 +58,11 @@ public class ClientACConfiguration {
                 } catch (Exception e) {
                     /* FIX ME 调用方ac不可用, 临时方案*/
                     result = new JSONObject();
-                    result.put("exception", ExceptionUtils.getStackTrace(e));
+                    JSONObject exJson = new JSONObject();
+                    exJson.put("className", e.getClass().getName());
+                    exJson.put("message", e.getMessage());
+                    exJson.put("stackTrace", ExceptionUtils.getStackTrace(e));
+                    result.put("exception", exJson);
                 }
                 return result;
             }

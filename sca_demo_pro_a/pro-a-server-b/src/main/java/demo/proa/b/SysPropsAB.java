@@ -14,10 +14,10 @@ public class SysPropsAB {
     @Value("${demo.my.id}")
     private String id;
 
-    @Value("${demo.my.restConnectTimeout:500}")
+    @Value("${demo.my.restConnectTimeout:1000}")
     private String restConnectTimeout;
 
-    @Value("${demo.my.restReadTimeout:500}")
+    @Value("${demo.my.restReadTimeout:1000}")
     private String restReadTimeout;
 
     @Value("${demo.serverAC.name}")

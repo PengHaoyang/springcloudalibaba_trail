@@ -62,7 +62,11 @@ public class ClientABConfiguration {
                 } catch (RestClientException e) {
                     /* FIX ME 调用方ab不可用, 临时方案*/
                     JSONObject resultJson = new JSONObject();
-                    resultJson.put("exception", ExceptionUtils.getStackTrace(e));
+                    JSONObject exJson = new JSONObject();
+                    exJson.put("className", e.getClass().getName());
+                    exJson.put("message", e.getMessage());
+                    exJson.put("stackTrace", ExceptionUtils.getStackTrace(e));
+                    resultJson.put("exception", exJson);
                     return resultJson;
                 }
                 return JSONObject.parseObject(result);
