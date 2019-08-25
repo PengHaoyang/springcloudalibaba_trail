@@ -3,7 +3,6 @@ package demo.proa.a;
 import demo.proa.a.clients.IClientAB;
 import demo.proa.a.clients.IClientAC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -26,11 +25,11 @@ public class ServiceAA {
     private IClientAC clientAC;
 
     @Autowired
-    private ServiceInstance serviceInstance;
+    private ServiceAA4Discovery discovery;
 
     public PojoAA getOne() {
         PojoAA p = new PojoAA();
-        p.setFieldAA1(props.getId() + ":" + serviceInstance.getUri().toString());
+        p.setFieldAA1(props.getId() + ":" + discovery.getSelfUri());
         p.setFieldAA2(Instant.now().toString());
         p.setFieldAA3(Instant.now().getNano());
         p.getFieldAAMap().put("ab", clientAB.getOne());
@@ -42,7 +41,7 @@ public class ServiceAA {
         PojoAA p = new PojoAA();
         p.setFieldAA5(Instant.now().toString() + " -> init, then delay " + ms + "ms");
 
-        p.setFieldAA1(props.getId() + ":" + serviceInstance.getUri().toString());
+        p.setFieldAA1(props.getId() + ":" + discovery.getSelfUri());
         p.setFieldAA2(Instant.now().toString());
         p.setFieldAA3(Instant.now().getNano());
         p.getFieldAAMap().put("ab", clientAB.getOneWithDelay(ms));
@@ -56,7 +55,7 @@ public class ServiceAA {
         PojoAA p = new PojoAA();
         p.setFieldAA5(Instant.now().toString() + " -> init, then delay " + ms + "ms");
 
-        p.setFieldAA1(props.getId() + ":" + serviceInstance.getUri().toString());
+        p.setFieldAA1(props.getId() + ":" + discovery.getSelfUri());
         p.setFieldAA2(Instant.now().toString());
         p.setFieldAA3(Instant.now().getNano());
         p.getFieldAAMap().put("ab", clientAB.getOneWithDelayAC(ms));
