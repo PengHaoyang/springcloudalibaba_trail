@@ -1,14 +1,14 @@
 package demo.proa.c;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @Author: penghaoyang
  * @Date: 2019/7/31 14:49
  * @Description: SysPropsAC
  */
-@Configuration
+@ConfigurationProperties
 public class SysPropsAC {
 
     @Value("${demo.my.id}")
