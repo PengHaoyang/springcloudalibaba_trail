@@ -1,66 +1,25 @@
-<<<<<<< HEAD
-# sca_trail
+## spring cloud alibaba leaning
 
-#### 介绍
-spring cloud alibaba 组件实验demo项目
+#### 19.12.14
 
-#### 软件架构
-软件架构说明
+最初目的：实验spring cloud alibaba 的各个组件
 
+++不过目录也可以做其他框架的实验++
 
-#### 安装教程
+#### 19.08.28
 
-1. xxxx
-2. xxxx
-3. xxxx
+到这一刻创建了三个项目，并验证了nacos作为服务注册中心、ribbon客户端负载均衡、feign声明式restful接口调用功能
 
-#### 使用说明
+* `sca_demo_pro_a` 包含三个子模块，`pro-a-server-a`、`pro-a-server-b`、`pro-a-server-a` 用于实验同一个父pom下的子pom各自作为服务时，使用sca互相调用的实现
+调用的关系是
 
-1. xxxx
-2. xxxx
-3. xxxx
+```
+graph LR
+pro-a-server-a-->pro-a-server-b
+pro-a-server-b-->pro-a-server-c
+pro-a-server-a-->pro-a-server-c
+```
 
-#### 参与贡献
+* `sca_demo_pro_b` 有独立的pom，视作没有公共源码的不同服务，之间仅仅靠restful来交与a的服务交互；待完成
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-=======
-# spring cloud alibaba leaning
-
-> CNCF 将云原生定义为在“现代动态环境”中运行的“可扩展应用程序”，这些应用程序使用容器、微服务和声明性 API 等技术
-
-## 搭建 spring cloud 简单项目
-
-### demo 准备
-
-#### 1. 准备 spring boot 项目，1pom3module, 每个module都是一个服务
-
-#### 2. 准备 spring boot 项目，额外2pom，1个带sdk，1个不带
-
-#### 3. 定义各服务的主要接口，定义服务间传递的结果封装，实现rest调用关系
-每个服务包含的基本功能：
-* 该服务特有的pojo，用于定义1实体数据
-* 作为服务端开放该pojo表示的资源操作（增删改查）
-* 作为客户端调用其他某些服务端的资源操作
-
-### 服务发现
-
-#### 4. 实现注册中心（eureka/nacos，这里选择后者）
-
-#### 5. sb服务转为sc服务，服务注册
-
-### ribbon
-
-#### 6. 添加负载均衡
-
-#### 7. 调用服务的声明修改
-
-### feign 和 hystrix
-
-#### 8. 修改restTemplate调用为feign声明式调用
-
-#### 9. 添加
->>>>>>> master
+* `sca_demo_pro_c` 也有独立的pom，视作没有公共源码的不同服务，但会实现client代码，供a的服务依赖；待完成 
