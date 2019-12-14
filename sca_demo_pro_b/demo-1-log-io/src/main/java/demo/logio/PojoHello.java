@@ -1,0 +1,20 @@
+package demo.logio;
+
+/**
+ * @Author: penghaoyang
+ * @Date: 2019/12/14 17:17
+ * @Description: PojoHello
+ */
+public class PojoHello {
+
+    private String field1;
+
+    public String getField1() {
+        return field1;
+    }
+
+    public void setField1(String field1) {
+        this.field1 = field1;
+    }
+	
+}

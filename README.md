@@ -1,6 +1,10 @@
 ## spring cloud alibaba leaning
 
-#### 19.12.14
+#### 19.12.14-2
+
+这次要实验一些日志框架
+
+#### 19.12.14-1
 
 最初目的：实验spring cloud alibaba 的各个组件
 

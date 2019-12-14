@@ -11,6 +11,7 @@
 
     <modules>
         <module>pro-b-server</module>
+        <module>demo-1-log-io</module>
     </modules>
 
     <properties>
