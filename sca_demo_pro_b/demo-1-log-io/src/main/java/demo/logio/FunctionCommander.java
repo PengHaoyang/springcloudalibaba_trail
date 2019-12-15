@@ -15,7 +15,7 @@ import org.springframework.shell.standard.ShellOption;
 @ShellComponent
 public class FunctionCommander {
 
-    private Logger logger = LoggerFactory.getLogger("FunctionCommander");
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 这些注解， 分别定义了 [cmd] ([key] [value]) ()... 的各个未知以及默认值等
@@ -42,9 +42,9 @@ public class FunctionCommander {
      */
     @ShellMethod(value = "output something into log file")
     public String logger(
-            @ShellOption(value = {"--message"}, defaultValue = "^_^ hi, there is some default words in the log line !!") String msg,
-            @ShellOption(value = {"--level"}, defaultValue = "info") String level,
-            @ShellOption(value = {"--repeat"}, defaultValue = "3") int repeat
+            @ShellOption(value = {"--message", "-m"}, defaultValue = "^_^ hi, there is some default words in the log line !!") String msg,
+            @ShellOption(value = {"--level", "-l"}, defaultValue = "info") String level,
+            @ShellOption(value = {"--repeat", "-r"}, defaultValue = "3") int repeat
     ){
         for (int i = 0; i < repeat; i++) {
             if(StringUtils.endsWithIgnoreCase("debug", level)){
