@@ -39,6 +39,7 @@ public class FunctionCommander {
      * @param msg 打印的信息
      * @param level 级别
      * @param repeat 重复次数
+     * @param name 打印的唯一标识， 区分文件
      * @return String
      */
     @ShellMethod(value = "output something into log file")
