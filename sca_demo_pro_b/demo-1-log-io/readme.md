@@ -1,3 +1,11 @@
+#### 19.12.18
+
+> 18:12
+
+实现了用Routing，将不同的线程调用的同一处日志打印， 输出到不同的文件
+
+Routing 配合 RollingFile、 `ThreadContext.put(k, v)`、`${ctx:k}` 实现即可
+
 #### 19.12.17
 
 > 22:37

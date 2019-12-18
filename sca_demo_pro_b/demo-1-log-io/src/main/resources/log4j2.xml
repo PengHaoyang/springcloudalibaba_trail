@@ -1,55 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Configuration 配置文件的根节点 -->
-<!-- status 用于设置log4j2自身内部日志的信息输出级别，默认是OFF-->
-<!-- monitorInterval 配置检查间隔秒数, 自动检测配置文件的变更和重新配置本身-->
-<!-- Appenders 定义输出内容,输出格式,输出方式,日志保存策略等,常用其下三种标签[console,File,RollingFile]-->
-<!-- Loggers 只有定义了logger并引入的appender，appender才会生效-->
 <Configuration status="WARN" >
     <Properties>
-        <!--Property 自定义一些常量，之后使用${变量名}引用-->
         <Property name="logFilePath">logs</Property>
-        <Property name="logFileName">demo-log-io-root</Property>
+        <Property name="logFileName">demo-log-io</Property>
     </Properties>
     <Appenders>
-        <!--console 控制台输出appender-->
-        <!--PatternLayout 输出日志行的格式, LOG4J2定义了细节的占位符，详细见官网-->
         <Console name="c1" target="SYSTEM_OUT">
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
         </Console>
-        <!--RollingFile 输出日志到文件, 达到指定大小后归档文件，并创建新日志继续-->
-        <!-- ThresholdFilter 日志输出过滤-->
-        <!--  level="info" 级别方式, onMatch="ACCEPT" 级别在info之上则接受, onMismatch="DENY" 级别在info之下则拒绝-->
-        <!-- Policies 日志归档策略-->
-        <!--  TimeBasedTriggeringPolicy 时间滚动策略, 默认0点小时产生新的文件,interval="6"，自定义文件归档时间间隔, 每隔6小时产生新文件, modulate="true" : 产生文件是否以0点偏移时间,即6点,12点,18点,0点-->
-        <!--  SizeBasedTriggeringPolicy 文件大小归档策略-->
-        <!-- RollingFile.DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
-        <RollingFile name="rf1" fileName="${logFilePath}/${logFileName}.rf1.log"
-                     filePattern="${logFilePath}/back/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.rf1.log">
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="ACCEPT"/>
-            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="100 KB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="20"/>
-        </RollingFile>
-        <RollingFile name="rf2" fileName="${logFilePath}/${logFileName}.rf2.json.log"
-                     filePattern="${logFilePath}/back/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.rf2.json.log">
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="ACCEPT"/>
-            <PatternLayout pattern='{"logtime":"%d{HH:mm:ss:SSS}", "level":"%p", "location":"%l", "content":"%m"}%n'/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="300 KB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="20"/>
-        </RollingFile>
+        <!--Routing 定义一个可以分发日志事件到不同到appender的路由appender-->
+        <!-- Routes 定义分发判断值来自怎样的表达式，$${ctx:seedName}指从ThreadContext中取出key为seedName的值，然后按顺序判断每个Route-->
+        <!--  Route中定义key=xxx，来指定某个value到那个具体的appender；如果不指定key，则所有的都会接受，一般放在最后-->
+        <Routing name="r1">
+            <Routes pattern="$${ctx:seedName}">
+                <Route key="$${ctx:seedName}">
+                    <RollingFile name="rf1" fileName="${logFilePath}/${logFileName}.default.json.log"
+                                 filePattern="${logFilePath}/back1/$${date:yyyy-MM}/info-default-%d{yyyy-MM-dd}-%i.json.log">
+                        <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="ACCEPT"/>
+                        <PatternLayout pattern='{"logDetail":{"logTime":"%d{HH:mm:ss:SSS}", "ctxName":"default", "level":"%p", "location":"%l", "content":"%m"}}%n'/>
+                        <Policies>
+                            <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+                            <SizeBasedTriggeringPolicy size="300 KB"/>
+                        </Policies>
+                        <DefaultRolloverStrategy max="20"/>
+                    </RollingFile>
+                </Route>
+                <Route>
+                    <!--注意在这里面使用 ${ctx:XXX}, 而不是 $${ctx:XXX}-->
+                    <RollingFile name="rf2" fileName="${logFilePath}/${logFileName}.${ctx:seedName}.json.log"
+                                 filePattern="${logFilePath}/back2/$${date:yyyy-MM}/info-${ctx:seedName}-%d{yyyy-MM-dd}-%i.json.log">
+                        <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="ACCEPT"/>
+                        <PatternLayout pattern='{"logDetail":{"logTime":"%d{HH:mm:ss:SSS}", "ctxName":"${ctx:seedName}", "level":"%p", "location":"%l", "content":"%m"}}%n'/>
+                        <Policies>
+                            <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+                            <SizeBasedTriggeringPolicy size="300 KB"/>
+                        </Policies>
+                        <DefaultRolloverStrategy max="20"/>
+                    </RollingFile>
+                </Route>
+            </Routes>
+        </Routing>
     </Appenders>
     <loggers>
-        <!--Root: 用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出 -->
         <root level="info">
             <appender-ref ref="c1"/>
-            <appender-ref ref="rf1"/>
-            <appender-ref ref="rf2"/>
+            <appender-ref ref="r1"/>
         </root>
     </loggers>
 </Configuration>

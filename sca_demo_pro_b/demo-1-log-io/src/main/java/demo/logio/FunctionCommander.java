@@ -1,6 +1,7 @@
 package demo.logio;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.shell.standard.ShellComponent;
@@ -34,7 +35,7 @@ public class FunctionCommander {
     }
 
     /**
-     * 打印日志指令（使用log4j2）
+     * 打印日志
      * @param msg 打印的信息
      * @param level 级别
      * @param repeat 重复次数
@@ -44,23 +45,46 @@ public class FunctionCommander {
     public String logger(
             @ShellOption(value = {"--message", "-m"}, defaultValue = "^_^ hi, there is some default words in the log line !!") String msg,
             @ShellOption(value = {"--level", "-l"}, defaultValue = "info") String level,
-            @ShellOption(value = {"--repeat", "-r"}, defaultValue = "3") int repeat
+            @ShellOption(value = {"--repeat", "-r"}, defaultValue = "3") int repeat,
+            @ShellOption(value = {"--name", "-n"}, defaultValue = "default") String name
     ){
+        if(!StringUtils.equals(name, "default")){
+            justLogInThread(msg, level, repeat, name);
+        } else {
+            justLog(msg, level, repeat, name);
+        }
+        return "success";
+    }
+
+    /**
+     * 开启一个新的线程打印日志
+     */
+    private void justLogInThread(String msg, String level, int repeat, String name) {
+        Runnable t = () -> justLog(msg, level, repeat, name);
+        new Thread(t).start();
+    }
+
+    /**
+     * 实际打印日志指令的操作（使用log4j2）
+     */
+    private void justLog(String msg, String level, int repeat, String name) {
+        ThreadContext.put("seedName", name);
         for (int i = 0; i < repeat; i++) {
-            if(StringUtils.endsWithIgnoreCase("debug", level)){
+
+            if (StringUtils.endsWithIgnoreCase("debug", level)) {
                 logger.debug(msg);
             }
-            if(StringUtils.endsWithIgnoreCase("info", level)){
+            if (StringUtils.endsWithIgnoreCase("info", level)) {
                 logger.info(msg);
             }
-            if(StringUtils.endsWithIgnoreCase("warn", level)){
+            if (StringUtils.endsWithIgnoreCase("warn", level)) {
                 logger.warn(msg);
             }
-            if(StringUtils.endsWithIgnoreCase("error", level)){
+            if (StringUtils.endsWithIgnoreCase("error", level)) {
                 logger.error(msg);
             }
         }
-        return "success";
+        ThreadContext.remove("seedName");
     }
 
 }
