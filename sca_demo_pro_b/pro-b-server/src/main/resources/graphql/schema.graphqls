@@ -1,0 +1,12 @@
+type Query {
+    pojobById(id: ID): Pojob
+    pojobAll: [Pojob]
+}
+
+type Pojob {
+    fieldB1: String
+    fieldB2: String
+    fieldB3: Int
+    fieldB4: Long
+    fieldB5: String
+}

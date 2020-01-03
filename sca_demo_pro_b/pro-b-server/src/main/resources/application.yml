@@ -6,6 +6,7 @@ management:
         include: '*'
 spring:
   application:
-    name: prisma
+    name: prob
 server:
-  port: ${random.int[10000,19999]}
+#  port: ${random.int[10000,19999]}
+  port: 2010
