@@ -1,4 +1,4 @@
-package salonika.ariadne.core;
+package salonika.ariadne.core.r1;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;

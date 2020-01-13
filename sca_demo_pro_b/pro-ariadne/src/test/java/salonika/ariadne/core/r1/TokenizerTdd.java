@@ -1,4 +1,4 @@
-package salonika.ariadne.core;
+package salonika.ariadne.core.r1;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
