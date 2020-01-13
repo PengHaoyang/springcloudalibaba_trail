@@ -23,6 +23,7 @@ public class AGTServiceTdd {
     }
 
     /**
+     * 测试调用api.github获取repo的source_code
      * @param githubRepoIdentifier github项目的标识符，比如 "neo4j/neo4j"，指向某个项目的home，用于调api.github.com/repos
      * @param fileSuffixes 代码的后缀，默认使用java
      */
