@@ -2,7 +2,7 @@ package salonika.ariadne.core.r2;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import salonika.ariadne.core.DefaultAGTService;
+import salonika.ariadne.core.AGTService4ApiGithubRepo;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class AGTServiceTdd {
 
-    private DefaultAGTService defaultAGTService = new DefaultAGTService();
+    private AGTService4ApiGithubRepo AGTService4ApiGithubRepo = new AGTService4ApiGithubRepo();
 
     @DataProvider(name = "ds01")
     public Object[][] ds01() {
@@ -33,7 +33,7 @@ public class AGTServiceTdd {
         // a：代码文件所在全路径作为key, 代码文件内容作为value
         // b：保留文件目录的树形结构；
         // 目前来看后者没有太大必要，此为中间过程，暂时用a即可
-        Map<String, String> sourceCodes = defaultAGTService.getAllSourceCodeByGithubRepoIdentifier(githubRepoIdentifier, fileSuffixes);
+        Map<String, String> sourceCodes = AGTService4ApiGithubRepo.getAllSourceCodeByGithubRepoIdentifier(githubRepoIdentifier, fileSuffixes);
         System.out.println(sourceCodes);
     }
 

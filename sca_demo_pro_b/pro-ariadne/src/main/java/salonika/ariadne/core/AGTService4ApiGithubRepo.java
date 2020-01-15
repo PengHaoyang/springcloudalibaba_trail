@@ -15,20 +15,31 @@ import java.util.Map;
  * @Description: DefaultAGTService
  */
 @Service
-public class DefaultAGTService {
+public class AGTService4ApiGithubRepo {
 
     private RestTemplate restClient = new RestTemplate();
 
-
     /**
+     * source_code 读取方法1：
+     * - 从 api.github.com 中读取某个repo中所有文件as source_code集合
      *
+     * @param githubRepoIdentifier github中的repo名
+     * @param fileSuffixes 需要返回的文件后缀
+     * @return Map<String, String> 路径:文件内容
      */
     public Map<String, String> getAllSourceCodeByGithubRepoIdentifier(String githubRepoIdentifier, String... fileSuffixes) {
         return getAllSourceCodeByGithubRepoIdentifier(githubRepoIdentifier, "", fileSuffixes);
     }
 
     /**
+     * source_code 读取方法1：
+     * - 从 api.github.com 中的某个repo的某个文件开始
+     * - 递归读取其内部的所有文件 as source_code集合
      *
+     * @param githubRepoIdentifier github中的repo名
+     * @param path 某个文件或文件夹的路径
+     * @param fileSuffixes 需要返回的文件后缀
+     * @return Map<String, String> 路径:文件内容
      */
     public Map<String, String> getAllSourceCodeByGithubRepoIdentifier(String githubRepoIdentifier, String path, String... fileSuffixes) {
         /*
@@ -41,6 +52,7 @@ public class DefaultAGTService {
          * - - 是文件，则
          * - - - 从 doc对象 中的_links.self接口地址中获取 source_code，添加到结果map中
          * - - - 文件需要base64解压
+         * - - - 检查是否是我们需要的后缀名的文件
          * 关于接口的授权
          * - 目前来看该调用会有限制，所以得使用github的接口授权，like OAuth
          * - 没有授权的调用每小时60次，授权后每小时是5000次
@@ -54,13 +66,25 @@ public class DefaultAGTService {
             JSONObject docObj = repoDocs.getJSONObject(i);
             /* doc对象 自身在github中标记自身位置的路径 */
             String docPath = docObj.getString("path");
-            if(StringUtils.equals(docObj.getString("type"), "dir")){
+            String docType = docObj.getString("type");
+            /* 是文件夹，则递归获取 */
+            if(StringUtils.equals(docType, "dir")){
                 Map<String, String> subSourceCode = this.getAllSourceCodeByGithubRepoIdentifier(githubRepoIdentifier, docPath, fileSuffixes);
                 result.putAll(subSourceCode);
                 continue;
             }
-            String sourceCode = this.extractSourceCodeFromContentSelfUrl(docObj.getJSONObject("_links").getString("self"));
-            result.put(docPath, sourceCode);
+            /* 是文件，则判断文件后缀，匹配则获取内容 */
+            boolean isDocWithTheSuffix = fileSuffixes.length <= 0;
+            for(String fileSuffix: fileSuffixes){
+                if(StringUtils.endsWithIgnoreCase(docPath, fileSuffix)){
+                    isDocWithTheSuffix = true;
+                    break; /* 检查后缀成功，break 当前层循环 */
+                }
+            }
+            if(isDocWithTheSuffix) {
+                String sourceCode = this.extractSourceCodeFromContentSelfUrl(docObj.getJSONObject("_links").getString("self"));
+                result.put(docPath, sourceCode);
+            }
         }
         return result;
     }
