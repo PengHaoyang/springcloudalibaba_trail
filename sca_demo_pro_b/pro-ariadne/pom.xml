@@ -31,10 +31,22 @@
             <artifactId>javaparser-core-serialization</artifactId>
             <version>3.15.9</version>
         </dependency>
+        <!-- java parser的序列化需要 glassfish 的json实现 -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

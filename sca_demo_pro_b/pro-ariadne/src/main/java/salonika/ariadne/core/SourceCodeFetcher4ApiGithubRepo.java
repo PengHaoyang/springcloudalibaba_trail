@@ -15,7 +15,7 @@ import java.util.Map;
  * @Description: DefaultAGTService
  */
 @Service
-public class AGTService4ApiGithubRepo {
+public class SourceCodeFetcher4ApiGithubRepo {
 
     private RestTemplate restClient = new RestTemplate();
 
